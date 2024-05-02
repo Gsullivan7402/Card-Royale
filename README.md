@@ -35,7 +35,7 @@ TODO:
     - Create a Hand Component that only shows backs of cards for opponent
     - Create a Discard Pile Component
     - Create a Game Field Component that shows the cards that are being played 
-    - Create a Leaderboard Component <- nina>
+    - Create a Leaderboard Component
 - Backend
     - Create a database with a user model with username, password, and games won
     - Create a leaderboard model
