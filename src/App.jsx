@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import './index.css';
 import Header from './components/Header';
+import Card from './components/Card';
 
 function App() {
   const [count, setCount] = useState(0)
@@ -8,6 +9,8 @@ function App() {
   return (
     <div>
       <Header />
+      <Card suit="hearts" rank="ace" />
+      <Card suit="hearts" rank="king" />
     </div>
        
   )
