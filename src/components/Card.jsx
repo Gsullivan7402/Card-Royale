@@ -9,6 +9,8 @@ export default function Card({ suit, rank }) {
     });
   }, []);
 
+  //TODO: Swap out the style attribute for tailwind classes
+
   return (
     <div
       style={{
