@@ -39,7 +39,7 @@ TODO:
     - Create a Leaderboard Component
 - Backend
     - Create a database with a user model with username, password, and games won
-    - Create a leaderboard model
+    - Create a leaderboard model created leaderboard componet GS
     - Create routes for signup, login, and game creation
 
  -->
