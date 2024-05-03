@@ -22,7 +22,7 @@ The game ends when one player has won all the cards.
 
 TODO:
 - Have main repo folder split into a server folder and a client folder. Move all react code to client folder.
-- Have server folder have a index.js file that starts an express server.
+- Have server folder have a index.js file that starts an express server. finished GS
 - Have server folder have a routes folder with all of the routes for the application.
 - Have server folder have a models folder with all of the mongoose models for the application.
 - Create a database with a user model with username, password, and games won.
@@ -39,7 +39,7 @@ TODO:
     - Create a Leaderboard Component
 - Backend
     - Create a database with a user model with username, password, and games won
-    - Create a leaderboard model
+    - Create a leaderboard model created leaderboard componet GS
     - Create routes for signup, login, and game creation
 
  -->
