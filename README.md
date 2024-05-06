@@ -21,11 +21,8 @@ The game ends when one player has won all the cards.
 <!-- 
 
 TODO:
-- Have main repo folder split into a server folder and a client folder. Move all react code to client folder.
-- Have server folder have a index.js file that starts an express server. finished GS
-- Have server folder have a routes folder with all of the routes for the application.
-- Have server folder have a models folder with all of the mongoose models for the application.
 - Create a database with a user model with username, password, and games won.
+
 - UI
     - Create Header Component with title and login button
     - Create a Signup component that allows user to create a username and password
@@ -34,7 +31,6 @@ TODO:
     - Create Game Over Component with a play again button
     - Create a Hand Component that allows user to cycle through and select a card
     - Create a Hand Component that only shows backs of cards for opponent
-    - Create a Discard Pile Component
     - Create a Game Field Component that shows the cards that are being played
     - Create a Leaderboard Component
 - Backend
