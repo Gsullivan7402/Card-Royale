@@ -1,31 +1,45 @@
 const { Schema, model } = require('mongoose');
+const bcrypt = require('bcrypt');
 
-const profileSchema = new Schema({
-  username: {
-    type: String,
-    required: true,
-    unique: true,
-    trim: true,
-  },
-  password:
-    {
+const userSchema = new Schema(
+  {
+    username: {
       type: String,
       required: true,
-      match: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/,
+      unique: true,
     },
-});
-
-profileSchema.statics.isThisUsernameInUse = async function(username) {
-    try {
-        const user = await this.findOne({ username });
-        if (user) return true; // Username is already in use
-        return false; // Username is not in use
-    } catch (error) {
-        console.log(error.message);
-        return false; // Error occurred, treat as if the username is in use
+    email: {
+      type: String,
+      required: true,
+      unique: true,
+      match: [/.+@.+\..+/, 'Must use a valid email address'],
+    },
+    password: {
+      type: String,
+      required: true,
+    },
+    victories: {
+      type: Number,
+      default: 0
     }
+  },
+  {
+    toJSON: {
+      virtuals: true,
+    },
+  }
+);
+
+// custom method to compare and validate password for logging in
+userSchema.methods.isCorrectPassword = async function (password) {
+  return bcrypt.compare(password, this.password);
 };
 
-const Profile = model('Profile', profileSchema);
+userSchema.methods.incrementVictories = async function () {
+  this.victories++;
+  await this.save();
+};
 
-module.exports = Profile;
+const User = model('User', userSchema);
+
+module.exports = User;
