@@ -10,7 +10,7 @@ setImgSrc(module.default);
 }, [rank, suit]);
 
 return (
-<div className="w-24 h-36 m-2 p-1 border border-black rounded">
+<div className="w-24 h-34 m-2 p-1 border border-black rounded">
 <img src={imgSrc} alt={`${suit} of ${rank}`} />
 </div>
 );
