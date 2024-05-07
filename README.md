@@ -15,26 +15,26 @@ The game ends when one player has won all the cards.
 
 ## Technologies Used
 
-  React.js: Used for building the user interface.
-   Node.js/Express.js: Server-side logic.
-   MongoDB/Mongoose: Database storage.
-   GraphQL: Data query language.
-   JWT (JSON Web Tokens): User authentication.
-  Styled-Components: CSS in JS for styling.
-  Other Technologies: List any other technologies, libraries, or frameworks used.
+ * React.js: Used for building the user interface.
+ *  Node.js/Express.js: Server-side logic.
+ *  MongoDB/Mongoose: Database storage.
+ *  GraphQL: Data query language.
+  * JWT (JSON Web Tokens): User authentication.
+ * Styled-Components: CSS in JS for styling.
+*  Other Technologies: List any other technologies, libraries, or frameworks used.
 
 ## Features
 
-starting and playing a game
-signup functionality
-Login and Logout functioanlity
-saving player wins and ranking them on a leaderboard
+*starting and playing a game
+*signup functionality
+*Login and Logout functioanlity
+*saving player wins and ranking them on a leaderboard
 
 ## Future Plans for Development
 
-  Card customization
-  Multiplayer
-  player avatars + customization
+ * Card customization
+ * Multiplayer
+ * player avatars + customization
 
 ## License
 
