@@ -1,28 +1,24 @@
 import { useEffect, useState } from "react";
 
 export default function Card({ suit, rank }) {
-  const [imgSrc, setImgSrc] = useState(null);
+const [imgSrc, setImgSrc] = useState(null);
 
-  useEffect(() => {
-    import(`../assets/cards/${rank}_of_${suit}.png`).then((module) => {
-      setImgSrc(module.default);
-    });
-  }, []);
+useEffect(() => {
+import(`../assets/cards/${rank}_of_${suit}.png`).then((module) => {
+setImgSrc(module.default);
+});
+}, [rank, suit]);
 
-  //TODO: Swap out the style attribute for tailwind classes
-
-  return (
-    <div
-      style={{
-        width: "100px",
-        height: "140px",
-        margin: "10px",
-        padding: "5px",
-        border: "1px solid black",
-        borderRadius: "5px",
-      }}
-    >
-      <img src={imgSrc} alt={`${suit} of ${rank}`} />
-    </div>
-  );
+return (
+<div className="w-24 h-34 m-2 p-1 border border-black rounded">
+<img src={imgSrc} alt={`${suit} of ${rank}`} />
+</div>
+);
 }
+
+import PropTypes from 'prop-types';
+
+Card.propTypes = {
+suit: PropTypes.string.isRequired,
+rank: PropTypes.string.isRequired
+};
