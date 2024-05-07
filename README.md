@@ -30,11 +30,11 @@ signup functionality
 Login and Logout functioanlity
 saving player wins and ranking them on a leaderboard
 
-Future Plans for Development
+## Future Plans for Development
 
--Card customization
--Multiplayer
--player avatars + customization
+  Card customization
+  Multiplayer
+  player avatars + customization
 
 ## License
 
