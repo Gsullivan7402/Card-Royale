@@ -1,28 +1,21 @@
-const Profile = require('./models/user');
-const express = require('express');
-const app = express();
+const router = require('express').Router();
+const {
+  createUser,
+  getSingleUser,
+  incrementVictories,
+  login,
+} = require('../controllers/user-controller');
 
-// Middleware to parse JSON bodies
-app.use(express.json());
+// import middleware
+const { authMiddleware } = require('../utils/auth');
 
-app.post('/create-profile', async (req, res) => {
-    try {
-        // Extract data from request body
-        const { username, password } = req.body;
-        
-        // Create a new Profile instance with the received data
-        const profile = new Profile({
-            username: username,
-            password: password
-        });
-        
-        // Save the profile to the database
-        await profile.save();
-        
-        // Respond with success message
-        res.status(201).json({ message: 'Profile created successfully' });
-    } catch (error) {
-        // If there's an error, respond with an error message
-        res.status(500).json({ error: 'Failed to create profile' });
-    }
-});
+// put authMiddleware anywhere we need to send a token for verification of user
+router.route('/').post(createUser).put(authMiddleware, saveBook);
+
+router.route('/login').post(login);
+
+router.route('/me').get(authMiddleware, getSingleUser);
+
+router.route('/books/:bookId').delete(authMiddleware, deleteBook);
+
+module.exports = router;
