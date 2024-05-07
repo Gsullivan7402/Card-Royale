@@ -25,10 +25,10 @@ The game ends when one player has won all the cards.
 
 ## Features
 
-*starting and playing a game
-*signup functionality
-*Login and Logout functioanlity
-*saving player wins and ranking them on a leaderboard
+* starting and playing a game
+* signup functionality
+* Login and Logout functioanlity
+* saving player wins and ranking them on a leaderboard
 
 ## Future Plans for Development
 
