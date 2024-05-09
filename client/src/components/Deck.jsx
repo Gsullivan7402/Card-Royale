@@ -1,16 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import Button from './Button'; 
-import { deck } from './constants'; 
+import { deck } from '../utils/constants'; 
+
+export const shuffleDeck = (deck) => {
+    const shuffledDeck = [...deck]; // Create a copy of the deck
+    for (let i = shuffledDeck.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [shuffledDeck[i], shuffledDeck[j]] = [shuffledDeck[j], shuffledDeck[i]];
+    }
+    return shuffledDeck;
+};
 
 function Deck() {
-    const shuffleDeck = (deck) => {
-        const shuffledDeck = [...deck]; // Create a copy of the deck
-        for (let i = shuffledDeck.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [shuffledDeck[i], shuffledDeck[j]] = [shuffledDeck[j], shuffledDeck[i]];
-        }
-        return shuffledDeck;
-    };
 
     // Initialize player and opponent hands
     const [playerHand, setPlayerHand] = useState([]);
