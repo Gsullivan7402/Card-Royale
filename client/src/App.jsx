@@ -3,6 +3,7 @@ import './index.css';
 import Header from './components/Header';
 import Card from './components/Card';
 import Login from './components/Login';
+import Gamefield from './components/Gamefield';
 
 function App() {
   const [count, setCount] = useState(0)
@@ -11,7 +12,8 @@ function App() {
     <div>
       <Header />
       <Login />
-      <Card isFaceUp={false} suit="hearts" rank="ace" />
+      <Gamefield />
+
     </div>
        
   )
