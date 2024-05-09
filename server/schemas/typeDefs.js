@@ -1,4 +1,4 @@
-const { gql} = require('apollo-server-express');
+const { gql } = require('apollo-server-express');
 
 const typeDefs = gql`
   type User {
@@ -6,6 +6,17 @@ const typeDefs = gql`
     name: String
     password: String
     victories: Int
-  }`;
+  }
+  
+  type Query {
+    me: User
+  }
 
-  module.exports = typeDefs
+  type Mutation {
+    addUser: User
+    login(email: String, password: String): User
+    incrementVictories: User
+  }
+`;
+
+module.exports = typeDefs;

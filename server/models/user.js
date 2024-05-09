@@ -17,6 +17,7 @@ const userSchema = new Schema(
     password: {
       type: String,
       required: true,
+      match: [/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8}$/]
     },
     victories: {
       type: Number,

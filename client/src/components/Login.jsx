@@ -15,6 +15,7 @@ function Login() {
 
     try {
         const response = await loginUser({ username, password });
+        console.log(response)
     
         if (!response.ok) {
             throw new Error('something went wrong!');
@@ -76,7 +77,7 @@ function Login() {
         </div>
         <Button
           actionType="login"
-          onClick={handleLogin}
+          // onClick={handleLogin}
           type="submit"
           className="w-40 ml-6 py-2 px-4 rounded bg-black text-white font-bold"
         >
