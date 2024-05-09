@@ -17,7 +17,7 @@ export default function Card({ suit, rank, isFaceUp = true }) {
     }, [rank, suit, isFaceUp]);
 
     return (
-        <div className="w-24 h-34 m-2 p-1 border border-black rounded">
+        <div className="w-24 h-34 m-2 p-1 border bg-white border-black rounded">
             {/* Conditional rendering based on whether the card is face up */}
             <img
                 src={isFaceUp ? imgSrc : cardBackSrc}
