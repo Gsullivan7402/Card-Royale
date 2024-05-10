@@ -1,22 +1,10 @@
-// Import express
 const express = require('express');
-const app = express();
-const PORT = process.env.PORT || 3000;
-const connection = require('./config/connection');
-// const api = require('./routes/index');
-
-// app.use(express.urlencoded({
-//     extended: false
-// }));
-// app.use(express.json());
-
-// app.use('/api', api);
-
-// app.get('/', (req, res) => { 
-//     res.sendFile(__dirname, '../client/src');
-//     console.log('Helloworld!');
-// });
-// console.log('hello world');
+const { ApolloServer } = require('@apollo/server');
+const { expressMiddleware } = require('@apollo/server/express4');
+const { authMiddleware } = require('./utils/auth');
+const { typeDefs, resolvers } = require('./schemas');
+const db = require('./config/connection');
+const User = require('./models/User');
 
 
 const path = require('path');
@@ -25,9 +13,6 @@ const { ApolloServer } = require('@apollo/server');
 const { expressMiddleware } = require('@apollo/server/express4');
 const { authMiddleware } = require('./utils/auth');
 
-// Import the two parts of a GraphQL schema
-const { typeDefs, resolvers } = require('./schemas');
-const db = require('./config/connection');
 
 const server = new ApolloServer({
   typeDefs,
