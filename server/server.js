@@ -1,23 +1,21 @@
 const express = require('express');
-const { ApolloServer } = require('@apollo/server');
-const { expressMiddleware } = require('@apollo/server/express4');
-const { authMiddleware } = require('./utils/auth');
-const { typeDefs, resolvers } = require('./schemas');
-const db = require('./config/connection');
-const User = require('./models/User');
-
-
 const path = require('path');
 // Import the ApolloServer class
 const { ApolloServer } = require('@apollo/server');
 const { expressMiddleware } = require('@apollo/server/express4');
 const { authMiddleware } = require('./utils/auth');
 
+// Import the two parts of a GraphQL schema
+const { typeDefs, resolvers } = require('./schemas');
+const db = require('./config/connection');
 
+const PORT = process.env.PORT || 3001;
 const server = new ApolloServer({
   typeDefs,
   resolvers,
 });
+
+const app = express();
 
 // Create a new instance of an Apollo server with the GraphQL schema
 const startApolloServer = async () => {
@@ -31,10 +29,10 @@ const startApolloServer = async () => {
   }));
 
   if (process.env.NODE_ENV === 'production') {
-    app.use(express.static(path.join(__dirname, '../client/')));
+    app.use(express.static(path.join(__dirname, '../client/dist')));
 
-    app.get('/', (req, res) => {
-      res.sendFile(path.join(__dirname, '../client/'));
+    app.get('*', (req, res) => {
+      res.sendFile(path.join(__dirname, '../client/dist/index.html'));
     });
   }
 
@@ -45,41 +43,6 @@ const startApolloServer = async () => {
     });
   });
 };
-
-// Function to seed the database
-const seedDatabase = async () => {
-    try {
-      // Check if there are any users already in the database
-      const userCount = await User.countDocuments();
-      if (userCount === 0) {
-        // Seed data
-        const userData = [
-          {
-            username: 'user1',
-            email: 'user1@example.com',
-            password: 'password1',
-            victories: 5
-          },
-          {
-            username: 'user2',
-            email: 'user2@example.com',
-            password: 'password2',
-            victories: 3
-          },
-          // Add more user data as needed
-        ];
-        
-        // Insert seed data into the database
-        await User.create(userData);
-        console.log('Database seeded successfully');
-      } else {
-        console.log('Database already seeded');
-      }
-    } catch (err) {
-      console.error('Error seeding database:', err);
-    }
-  };
-  
 
 // Call the async function to start the server
 startApolloServer();
