@@ -3,7 +3,7 @@ const express = require('express');
 const app = express();
 const PORT = process.env.PORT || 3000;
 const connection = require('./config/connection');
-const api = require('./routes/index');
+// const api = require('./routes/index');
 
 // app.use(express.urlencoded({
 //     extended: false
@@ -60,6 +60,41 @@ const startApolloServer = async () => {
     });
   });
 };
+
+// Function to seed the database
+const seedDatabase = async () => {
+    try {
+      // Check if there are any users already in the database
+      const userCount = await User.countDocuments();
+      if (userCount === 0) {
+        // Seed data
+        const userData = [
+          {
+            username: 'user1',
+            email: 'user1@example.com',
+            password: 'password1',
+            victories: 5
+          },
+          {
+            username: 'user2',
+            email: 'user2@example.com',
+            password: 'password2',
+            victories: 3
+          },
+          // Add more user data as needed
+        ];
+        
+        // Insert seed data into the database
+        await User.create(userData);
+        console.log('Database seeded successfully');
+      } else {
+        console.log('Database already seeded');
+      }
+    } catch (err) {
+      console.error('Error seeding database:', err);
+    }
+  };
+  
 
 // Call the async function to start the server
 startApolloServer();
