@@ -3,31 +3,30 @@ const User = require('../models/User');
 
 const seedUsers = async () => {
   try {
-    // Create users
+    // Create users data with hashed passwords
     const usersData = [
       {
-        username: 'user1',
-        email: 'user1@example.com',
+        username: 'Bobby',
+        email: 'bobby@example.com',
         password: 'password123',
         victories: 5,
       },
       {
-        username: 'user2',
-        email: 'user2@example.com',
+        username: 'frank',
+        email: 'frank@example.com',
         password: 'securePassword',
         victories: 10,
       },
     ];
 
-    const usersWithHashedPasswords = await Promise.all(usersData.map(async (user) => {
+    // Hash passwords concurrently
+    const hashedUsersData = await Promise.all(usersData.map(async (user) => {
       const hashedPassword = await bcrypt.hash(user.password, 10);
-      return {
-        ...user,
-        hashedPassword,
-      };
+      return { ...user, hashedPassword };
     }));
 
-    await User.create(usersWithHashedPasswords);
+    // Create users in the database
+    await User.insertMany(hashedUsersData);
 
     console.log('Seed data created successfully');
   } catch (error) {
@@ -35,5 +34,5 @@ const seedUsers = async () => {
   }
 };
 
-seedUsers()
+seedUsers();
 module.exports = seedUsers;

@@ -4,6 +4,7 @@ const path = require('path');
 const { ApolloServer } = require('@apollo/server');
 const { expressMiddleware } = require('@apollo/server/express4');
 const { authMiddleware } = require('./utils/auth');
+// const seedUsers = require('./utils/seeds');
 
 // Import the two parts of a GraphQL schema
 const { typeDefs, resolvers } = require('./schemas');
@@ -36,6 +37,9 @@ const startApolloServer = async () => {
     });
   }
 
+
+  // await seedUsers();
+
   db.once('open', () => {
     app.listen(PORT, () => {
       console.log(`API server running on port ${PORT}!`);
@@ -43,6 +47,8 @@ const startApolloServer = async () => {
     });
   });
 };
+
+
 
 // Call the async function to start the server
 startApolloServer();
