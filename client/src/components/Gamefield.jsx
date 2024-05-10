@@ -49,7 +49,7 @@ export default function Gamefield() {
     };
 
     return (
-        <div className="gamefield flex flex-col items-center p-4 bg-green-600">
+        <div className="gamefield flex flex-col items-center p-4 bg-green-800 h-full">
             {/* Opponent's hand (single face-down card) */}
             <div className="opponent-hand flex mb-4 justify-center">
                 <Card suit="" rank="" isFaceUp={false} />
@@ -59,7 +59,7 @@ export default function Gamefield() {
             </div>
 
             {/* Next button */}
-            <Button actionType="next" onClick={handleNext} className="next-button mb-4 p-2 bg-gray-300 hover:bg-gray-400 rounded">
+            <Button actionType="next" onClick={handleNext} className="next-button mb-4 p-2 bg-white hover:bg-gray-400 rounded">
                 Next
             </Button>
 
