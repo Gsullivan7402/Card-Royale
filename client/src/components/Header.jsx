@@ -3,7 +3,7 @@ import Button from './Button';
 
 const Header = () => {
   return (
-    <div className='font-bold text-4xl text-center'>Card Royale</div>
+    <div className='font-sans text-4xl text-center bg-green-800 text-white' >Card Royale</div>
     
     
   )
