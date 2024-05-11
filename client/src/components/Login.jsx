@@ -1,82 +1,62 @@
-import { useMutation } from "@apollo/client";
-import React, { useEffect, useState } from "react";
-import authService from '../utils/auth';
-import { ADD_USER, LOGIN_USER } from "../utils/mutations";
+import React, { useState } from "react";
 import Button from "./Button";
+import { loginUser, createUser } from "../utils/API"; // Import createUser
+import Auth from "../utils/auth";
 
 function Login() {
-    // Define the state for email, password
-    const [email, setEmail] = useState("");
+    // Define the state for username, password
+    const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
 
-    const [loginUser, { data, loading, error }] = useMutation(LOGIN_USER);
-    const [signup, { data: signupData, loading: signupLoading, error: signupError }] = useMutation(ADD_USER);
-
     // Handle form submission for login
-    const handleLogin = (e) => {
-        e.preventDefault();
-        console.log('login clicked')
-        // try {
-        //     const response = await loginUser({ email, password });
+    const handleLogin = async (event) => {
+        event.preventDefault(); // Prevent form submission from refreshing the page
 
-        //     if (!response.ok) {
-        //         throw new Error('something went wrong!');
-        //     }
+        try {
+            const response = await loginUser({ username, password });
+    
+            if (!response.ok) {
+                throw new Error('something went wrong!');
+            }
+    
+            const { token, user } = await response.json();
+            console.log(user);
+            Auth.login(token);
+        } catch (err) {
+            console.error(err);
+            // Display error message to the user
+            alert(err.message || "An error occurred during login.");
+        }
 
-        //     const { token, user } = await response.json();
-        //     console.log(user);
-        //     Auth.login(token);
-        // } catch (err) {
-        //     console.error(err);
-        //     // Display error message to the user
-        //     alert(err.message || "An error occurred during login.");
-        // }
-
-        // // Clear input fields after handling
-        // setEmail("");
-        // setPassword("");
-        loginUser({ variables: { email: email, password: password } });
+        // Clear input fields after handling
+        setUsername("");
+        setPassword("");
     };
-
-    useEffect(() => {
-        if (!data) return;
-        console.log('loginData', data.login.token);
-        // handle login
-        authService.login(data.login.token);
-    }, [data]);
 
     // Handle form submission for sign up
-    const handleSignUp = (e) => {
-        e.preventDefault();
-        console.log('signup clicked')
-        // try {
-        //     const response = await createUser({ email, password });
+    const handleSignUp = async (event) => {
+        event.preventDefault(); // Prevent form submission from refreshing the page
 
-        //     if (!response.ok) {
-        //         throw new Error('something went wrong during sign up!');
-        //     }
+        try {
+            const response = await createUser({ username, password });
 
-        //     const { token, user } = await response.json();
-        //     console.log(user);
-        //     Auth.login(token);
-        // } catch (err) {
-        //     console.error(err);
-        //     // Display error message to the user
-        //     alert(err.message || "An error occurred during sign up.");
-        // }
+            if (!response.ok) {
+                throw new Error('something went wrong during sign up!');
+            }
 
-        // // Clear input fields after handling
-        // setEmail("");
-        // setPassword("");
-        signup({ variables: { email: email, password: password } })
+            const { token, user } = await response.json();
+            console.log(user);
+            Auth.login(token);
+        } catch (err) {
+            console.error(err);
+            // Display error message to the user
+            alert(err.message || "An error occurred during sign up.");
+        }
+
+        // Clear input fields after handling
+        setUsername("");
+        setPassword("");
     };
-
-    useEffect(() => {
-        if (!signupData) return;
-        console.log('signupData', signupData);
-        // handle login
-        authService.login(signupData.addUser.token);
-    }, [signupData]);
 
     // Render the login form
     return (
@@ -85,17 +65,18 @@ function Login() {
             style={{ width: "250px" }}
         >
             <form
+                onSubmit={handleLogin}
                 className="login-form flex flex-col p-4 bg-gray-100 rounded"
             >
                 <div className="mb-3">
-                    <label htmlFor="email" className="block mb-1 text-sm font-medium">
-                        Email:
+                    <label htmlFor="username" className="block mb-1 text-sm font-medium">
+                        Username:
                     </label>
                     <input
                         type="text"
-                        id="email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
+                        id="username"
+                        value={username}
+                        onChange={(e) => setUsername(e.target.value)}
                         className="w-full p-1.5 border border-gray-300 rounded text-sm"
                         required
                     />
@@ -113,18 +94,22 @@ function Login() {
                         required
                     />
                 </div>
-
+                
                 {/* Login button */}
                 <Button
+                    actionType="login"
                     onClick={handleLogin}
+                    type="submit"
                     className="w-40 ml-6 py-2 px-4 rounded bg-black text-white font-bold mb-2"
                 >
                     Log In
                 </Button>
-
+                
                 {/* Sign Up button */}
                 <Button
+                    actionType="signup"
                     onClick={handleSignUp}
+                    type="submit"
                     className="w-40 ml-6 py-2 px-4 rounded bg-black text-white font-bold"
                 >
                     Sign Up

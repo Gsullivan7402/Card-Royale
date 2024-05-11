@@ -34,5 +34,5 @@ const seedUsers = async () => {
   }
 };
 
-// seedUsers();
+seedUsers();
 module.exports = seedUsers;
