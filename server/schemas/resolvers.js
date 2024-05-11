@@ -33,10 +33,10 @@ const resolvers = {
             const user = await User.findOne({ email });
 
             if (!user) {
-                throw new AuthenticationError('Your username is not correct!')
+                throw new AuthenticationError('Your email is not correct!')
             }
 
-            const correctPassword = await user.isCorrectPassword(password);
+            const correctPassword =  user.password = password;
 
             if (!correctPassword) {
                 throw new AuthenticationError('Your password is incorrect, please try again.')
