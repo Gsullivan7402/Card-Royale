@@ -1,7 +1,6 @@
 import { useState } from 'react'
 import './index.css';
 import Header from './components/Header';
-import Login from './components/Login';
 import Homepage from './pages/HomePage';
 
 function App() {
@@ -10,7 +9,6 @@ function App() {
   return (
     <div>
       <Header />
-      <Login />
       <Homepage />
       
 

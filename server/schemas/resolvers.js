@@ -1,17 +1,26 @@
 const { AuthenticationError } = require('apollo-server-express');
-const { User } = require('../models');
+const User = require('../models/User');
 const { signToken } = require('../utils/auth');
 
 const resolvers = {
     Query: {
-        me: async (parent, args, context) => {
-            if (context.user) {
-                const userData = await User.findOne({ _id: context.user._id }).select('_v -password');
-                return userData;
-            }
-            throw new AuthenticationError('You are not currently logged in');
-        },
-    },
+      me: async (parent, args, context) => {
+          if (context.user) {
+              const userData = await User.findOne({ _id: context.user._id }).select('_v -password');
+              return userData;
+          }
+          throw new AuthenticationError('You are not currently logged in');
+      },
+      allUsers: async (parent, args, context) => {
+          try {
+              // Fetch all users from the database
+              const users = await User.find();
+              return users;
+          } catch (error) {
+              throw new Error('Failed to fetch users');
+          }
+      }
+  },
 
     Mutation: {
         addUser: async (parent, args) => {
@@ -24,10 +33,10 @@ const resolvers = {
             const user = await User.findOne({ email });
 
             if (!user) {
-                throw new AuthenticationError('Your username is not correct!')
+                throw new AuthenticationError('Your email is not correct!')
             }
 
-            const correctPassword = await user.isCorrectPassword(password);
+            const correctPassword =  user.password = password;
 
             if (!correctPassword) {
                 throw new AuthenticationError('Your password is incorrect, please try again.')
