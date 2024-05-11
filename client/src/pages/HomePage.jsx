@@ -1,10 +1,8 @@
 import React from 'react';
-import Gamefield from '../components/Gamefield';
 
 function Homepage() {
     return (
-        <div className="h-screen w-full overflow-hidden bg-green-800">
-            <Gamefield />
+        <div className="min-h-screen w-full bg-cover bg-center bg-green-800">
         </div>
     );
 }
