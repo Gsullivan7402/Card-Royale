@@ -1,15 +1,8 @@
 import React from 'react';
-import Gamefield from '../components/Gamefield';
-import Login from '../components/Login';
-import Auth from '../utils/auth';
-import Button from '../components/Button';
 
 function Homepage() {
     return (
-        <div className="h-screen w-full overflow-hidden bg-green-800">
-           <Gamefield />
-            
-
+        <div className="min-h-screen w-full bg-cover bg-center bg-green-800">
         </div>
     );
 }

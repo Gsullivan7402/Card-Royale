@@ -49,7 +49,7 @@ export default function Gamefield() {
     };
 
     return (
-        <div className="gamefield flex flex-col items-center p-4 bg-green-800">
+        <div className="gamefield flex flex-col items-center p-4 bg-green-800 h-full">
             {/* Opponent's hand (single face-down card) */}
             <div className="opponent-hand flex mb-4 justify-center">
                 <Card suit="" rank="" isFaceUp={false} />
