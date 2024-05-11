@@ -6,7 +6,6 @@ import OpponentHand from './OpponentHand';
 import GameField from './GameField';
 import useGameState from '../utils/score';
 import { deck } from '../utils/constants';
-import displayleaderboard from "./displayleaderboard"
 
 const GameComponent = () => {
   const [playerDeck, setPlayerDeck] = useState([]);
