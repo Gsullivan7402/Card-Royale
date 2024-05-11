@@ -30,10 +30,6 @@ userSchema.methods.isCorrectPassword = async function (password) {
   return bcrypt.compare(password, this.password);
 };
 
-userSchema.methods.incrementVictories = async function () {
-  this.victories++;
-  await this.save();
-};
 
 const User = model('User', userSchema);
 
