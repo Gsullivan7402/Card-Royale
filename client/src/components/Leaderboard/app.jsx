@@ -24,7 +24,7 @@ function App() {
 
   return (
     <div className="App">
-      <h1>Leaderboard</h1>
+    
       <List users={users} />
       <button onClick={checkWinConditionAndIncrement}>Simulate Win for Alice</button>
     </div>

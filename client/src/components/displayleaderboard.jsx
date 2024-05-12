@@ -11,10 +11,12 @@ function ToggleLeaderboard( ) {
   //};
 
   return (
-   <div className="w-40 h-100 bg-white">
-    <App />
-   </div>
-  ); 
-} 
-
+    <div className="w-full max-w-2xl mx-auto mt-8 bg-green-100 shadow-xl rounded-lg p-4">
+      <h1 className="text-lg font-bold text-green-800 text-center">Leaderboard of Champions!</h1>
+      <div className="overflow-auto">
+        <App />
+      </div>
+    </div>
+  );
+}
 export default ToggleLeaderboard;
