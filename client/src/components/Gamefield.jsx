@@ -3,9 +3,9 @@ import Button from './Button';
 import Card from './Card';
 import { deck } from '../utils/constants';
 import { shuffleDeck } from '../components/Deck'; // Assuming shuffleDeck function is moved here
-import Leaderboard from './Leaderboard/app'; // Adjust the import path as necessary
 
-export default function Gamefield({ showLeaderboard }) {
+
+export default function Gamefield() {
     // State variables for the player's and opponent's hands
     const [playerHand, setPlayerHand] = useState([]);
     const [opponentHand, setOpponentHand] = useState([]);
@@ -48,7 +48,6 @@ export default function Gamefield({ showLeaderboard }) {
 
     return (
         <div className="gamefield flex flex-col items-center p-4 bg-green-800">
-            {showLeaderboard && <Leaderboard />}
             {/* Opponent's hand (single face-down card) */}
             <div className="opponent-hand flex mb-4 justify-center">
                 <Card suit="" rank="" isFaceUp={false} />
