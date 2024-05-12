@@ -6,7 +6,7 @@ import toggleLeaderboard from './displayleaderboard'; // Ensure the correct file
 
 const Header = () => {
   return (
-    <div className='bg-green-800 relative'>
+    <div className='bg-green-800 relative pt-6'>
       <h1 className='font-sans text-4xl text-center text-white'>Card Royale</h1>
       <div style={{ position: 'absolute', right: '50px', top: '10px' }}>
         {Auth.loggedIn() ? (
