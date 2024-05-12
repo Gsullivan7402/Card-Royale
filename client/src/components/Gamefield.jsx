@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import Button from './Button';
 import Card from './Card';
-import { deck, suits, ranks } from '../utils/constants';
+import { deck } from '../utils/constants';
 import { shuffleDeck } from '../components/Deck'; // Assuming shuffleDeck function is moved here
+import Leaderboard from './Leaderboard/app'; // Adjust the import path as necessary
 
-export default function Gamefield() {
+export default function Gamefield({ showLeaderboard }) {
     // State variables for the player's and opponent's hands
     const [playerHand, setPlayerHand] = useState([]);
     const [opponentHand, setOpponentHand] = useState([]);
@@ -18,11 +19,8 @@ export default function Gamefield() {
         // Shuffle the deck and split it into two hands
         const shuffledDeck = shuffleDeck(deck);
         const middle = Math.floor(shuffledDeck.length / 2);
-        const playerDeck = shuffledDeck.slice(0, middle);
-        const opponentDeck = shuffledDeck.slice(middle);
-
-        setPlayerHand(playerDeck);
-        setOpponentHand(opponentDeck);
+        setPlayerHand(shuffledDeck.slice(0, middle));
+        setOpponentHand(shuffledDeck.slice(middle));
     }, []);
 
     // Handle the 'Next' button click
@@ -50,6 +48,7 @@ export default function Gamefield() {
 
     return (
         <div className="gamefield flex flex-col items-center p-4 bg-green-800">
+            {showLeaderboard && <Leaderboard />}
             {/* Opponent's hand (single face-down card) */}
             <div className="opponent-hand flex mb-4 justify-center">
                 <Card suit="" rank="" isFaceUp={false} />
