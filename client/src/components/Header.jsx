@@ -2,7 +2,7 @@ import React from 'react';
 import Button from './Button';
 import Auth from '../utils/auth';
 import Login from './Login';
-import ToggleLeaderboard from './displayleaderboard'
+
 
 const Header  = () => {
   return (
@@ -20,15 +20,8 @@ const Header  = () => {
           <Login />
         )}
       </div>
-      <div style={{ position: 'absolute', left: '30px', top: '10px' }}>
-        <Button
-          onClick={ToggleLeaderboard}  // This is where the toggle function is hooked up
-          className="w-40 ml-6 py-2 px-4 rounded bg-black text-white font-bold"
-        >
-          Toggle Leaderboard
-        </Button>
       </div>
-    </div>
+    
   );
 };
 
