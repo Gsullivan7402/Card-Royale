@@ -1,122 +1,147 @@
-// In your Gamefield component
-import React, { useState, useEffect } from "react";
-import Button from "./Button";
+import { useEffect, useState } from "react";
+import { deck } from "../utils/constants";
+import { compareCards, shuffle, } from "../utils/gameLogic";
 import Card from "./Card";
-import { deck, suits, ranks } from "../utils/constants";
-import { shuffleDeck } from "../components/Deck"; // Assuming shuffleDeck function is moved here
-import { playRound, handleWar, compareCards } from "../utils/gameLogic"; 
+import Button from "./Button";
 
 export default function Gamefield() {
-  // State variables for the player's and opponent's hands
-  const [playerHand, setPlayerHand] = useState([]);
-  const [opponentHand, setOpponentHand] = useState([]);
+    const [startGame, setStartGame] = useState(false);
+    const [warIndex, setWarIndex] = useState(0);
+    const [winner, setWinner] = useState("");
+    const [playerCards, setPlayerCards] = useState({ deck: [], inPlay: [], discard: [] });
+    const [opponentCards, setOpponentCards] = useState({ deck: [], inPlay: [], discard: [] });
 
-  // State variables for the current top cards for player and opponent
-  const [playerTopCard, setPlayerTopCard] = useState(null);
-  const [opponentTopCard, setOpponentTopCard] = useState(null);
+    const handleStart = () => {
+        setWinner("");
+        const shuffledDeck = shuffle(deck);
+        const middle = Math.floor(shuffledDeck.length / 2);
+        const playerDeck = shuffledDeck.slice(0, middle);
+        const opponentDeck = shuffledDeck.slice(middle);
 
-  // State variable to track whether a war is happening
-  const [isWar, setIsWar] = useState(false);
-
-  // Initialize the game state
-  useEffect(() => {
-    // Shuffle the deck and split it into two hands
-    const shuffledDeck = shuffleDeck(deck);
-    const middle = Math.floor(shuffledDeck.length / 2);
-    const playerDeck = shuffledDeck.slice(0, middle);
-    const opponentDeck = shuffledDeck.slice(middle);
-
-    setPlayerHand(playerDeck);
-    setOpponentHand(opponentDeck);
-  }, []);
-
-  // Handle the 'Start Game' button click
-  const handleStartGame = () => {
-    // Set isWar to false when starting a new game
-    setIsWar(false);
-    // Call playGame function to start the game
-    playGame(playerHand, opponentHand);
-  };
-
-  // Handle the 'Next' button click
-  const handleNext = () => {
-    if (playerHand.length > 0 && opponentHand.length > 0) {
-      // Play a round of the game
-      const { playerDeck, opponentDeck } = playRound(playerHand, opponentHand);
-
-      // Update the state with the new decks
-      setPlayerHand(playerDeck);
-      setOpponentHand(opponentDeck);
-
-      // Update the top cards
-      setPlayerTopCard(playerDeck[0]);
-      setOpponentTopCard(opponentDeck[0]);
-
-      // Check if a war is happening
-      setIsWar(compareCards(playerTopCard, opponentTopCard) === 'war');
-    } else {
-      // If either hand is empty, handle the end of the game round
-      console.log("No more cards left for one or both players.");
-      // Handle end-of-game logic here (e.g., announce winner, reset game)
+        setPlayerCards({ deck: playerDeck, inPlay: [], discard: [] });
+        setOpponentCards({ deck: opponentDeck, inPlay: [], discard: [] });
+        setStartGame(true);
     }
-  };
 
-  return (
-    <div className="gamefield flex flex-col items-center p-4 bg-green-800">
-      {/* Opponent's hand (single face-down card) */}
-      <p className="font-bold">Cards left: {opponentHand.length}</p>
-      <h3 className="text-white font-bold">Opponent Hand</h3>
-      <div className="opponent-hand flex items-center mb-4 justify-center">
-        <Card suit="" rank="" isFaceUp={false} />
-        {opponentTopCard && (
-          <Card
-            suit={opponentTopCard.suit}
-            rank={opponentTopCard.rank}
-            isFaceUp={true}
-          />
-        )}
-        {isWar && (
-           <>
-           {/* Render the first additional card */}
-           <Card suit={opponentHand[1]?.suit} rank={opponentHand[1]?.rank} isFaceUp={true} />
-           {/* Render the second additional card */}
-           <Card suit={opponentHand[2]?.suit} rank={opponentHand[2]?.rank} isFaceUp={true} />
-         </>
-        )}
-      </div>
+    const handleNext = () => {
+        // Copy player/opponent objects into new variables.
+        let player = { ...playerCards };
+        let opponent = { ...opponentCards };
 
-      {/* Start Game or Next button */}
-      <Button
-        actionType={playerHand.length === 0 || opponentHand.length === 0 ? "start" : "next"}
-        onClick={playerHand.length === 0 || opponentHand.length === 0 ? handleStartGame : handleNext}
-        className="next-button mb-4 p-2 bg-white hover:bg-gray-400 rounded"
-      >
-        {playerHand.length === 0 || opponentHand.length === 0 ? "Start Game" : "Next"}
-      </Button>
+        const playCard = () => {
+            if (player.deck.length === 0) {
+                const newDeck = shuffle(player.discard);
+                player.deck = newDeck;
+                player.discard = [];
+            }
+            if (opponent.deck.length === 0) {
+                const newDeck = shuffle(opponent.discard);
+                opponent.deck = newDeck;
+                opponent.discard = [];
+            }
+            // Add card from top of deck to in play
+            const playerInPlay = player.deck.splice(0, 1);
+            const opponentInPlay = opponent.deck.splice(0, 1);
+            player = { ...player, inPlay: playerInPlay };
+            opponent = { ...opponent, inPlay: opponentInPlay };
+            setPlayerCards(player);
+            setOpponentCards(opponent);
+        }
+        if (player.inPlay.length === 0) {
+            // If deck is empty, shuffle discard and add to deck.
+            playCard();
+            return;
+        }
 
-      {/* Player's hand (single face-down card) */}
-      <div className="player-hand flex items-center mt-4 justify-center">
-        <Card suit="" rank="" isFaceUp={false} />
-        {playerTopCard && (
-          <Card
-            suit={playerTopCard.suit}
-            rank={playerTopCard.rank}
-            isFaceUp={true}
-          />
-        )}
-          {isWar && (
-            <>
-            {/* Render the first additional card */}
-            <Card suit={playerHand[1]?.suit} rank={playerHand[1]?.rank} isFaceUp={true} />
-            {/* Render the second additional card */}
-            <Card suit={playerHand[2]?.suit} rank={playerHand[2]?.rank} isFaceUp={true} />
-          </>
-          )
-}
-        
-      </div>
-      <h3 className="text-white font-bold mb-2">Player Hand</h3>
-      <p className="font-bold">Cards left: {playerHand.length}</p>
-    </div>
-  );
+        const comparison = compareCards(player.inPlay[warIndex], opponent.inPlay[warIndex]);
+        if (comparison === "player") {
+            player.discard = player.discard.concat(player.inPlay).concat(opponent.inPlay);
+            player.inPlay = [];
+            opponent.inPlay = [];
+            playCard();
+            setWarIndex(0);
+            return;
+        } else if (comparison === "opponent") {
+            opponent.discard = opponent.discard.concat(player.inPlay).concat(opponent.inPlay);
+            player.inPlay = [];
+            opponent.inPlay = [];
+            playCard();
+            setWarIndex(0);
+            return;
+        } else {
+            // War were declared
+            if (player.deck.length < 2) {
+                const newDeck = shuffle(player.discard);
+                player.deck = newDeck;
+                player.discard = [];
+            }
+            if (opponent.deck.length < 2) {
+                const newDeck = shuffle(opponent.discard);
+                opponent.deck = newDeck;
+                opponent.discard = [];
+            }
+            const cardAmount = (player.deck.length > 1 && opponent.deck.length > 1) ? 2 : 1;
+            const playerAddInPlay = player.deck.splice(0, cardAmount);
+            const opponentAddInPlay = opponent.deck.splice(0, cardAmount);
+            player = { ...player, inPlay: player.inPlay.concat(playerAddInPlay) };
+            opponent = { ...opponent, inPlay: opponent.inPlay.concat(opponentAddInPlay) };
+            setPlayerCards(player);
+            setOpponentCards(opponent);
+            setWarIndex(prev => prev + 1);
+            return;
+        }
+
+    }
+
+    // Watch deck lengths for winner
+    useEffect(() => {
+        if (startGame) {
+            if (playerCards.deck.length === 0 && playerCards.inPlay.length === 0 && playerCards.discard.length === 0) {
+                setWinner("Opponent Wins!");
+                setStartGame(false);
+                setOpponentCards({ deck: [], inPlay: [], discard: [] });
+                setPlayerCards({ deck: [], inPlay: [], discard: [] });
+            } else if (opponentCards.deck.length === 0 && opponentCards.inPlay.length === 0 && opponentCards.discard.length === 0) {
+                setWinner("Player Wins!");
+                setStartGame(false);
+                setOpponentCards({ deck: [], inPlay: [], discard: [] });
+                setPlayerCards({ deck: [], inPlay: [], discard: [] });
+            } else {
+                return;
+            }
+        }
+    }, [playerCards, opponentCards])
+
+
+    return (
+        <div className="gamefield flex flex-col items-center p-4 bg-green-800">
+            {/* Opponent's hand (single face-down card) */}
+            <p className="font-bold">Cards left: {opponentCards.deck.length + opponentCards.discard.length}</p>
+            <h3 className="text-white font-bold">Opponent Hand</h3>
+            <div className="opponent-hand flex items-center mb-4 justify-center">
+                <Card suit="" rank="" isFaceUp={false} />
+                {opponentCards.inPlay.map((card) => (
+                    <Card key={`${card.rank}_of_${card.suit}`} suit={card.suit} rank={card.rank} isFaceUp={true} />
+                ))}
+            </div>
+
+            {/* Start Game or Next button */}
+            <Button
+                onClick={() => { !startGame ? handleStart() : handleNext() }}
+                className="next-button mb-4 p-2 bg-white hover:bg-gray-400 rounded"
+            >
+                {startGame ? "Next" : "Start Game"}
+            </Button>
+            {winner && <div>{winner}</div>}
+            {/* Player's hand (single face-down card) */}
+            <div className="player-hand flex items-center mt-4 justify-center">
+                <Card suit="" rank="" isFaceUp={false} />
+                {playerCards.inPlay.map((card) => (
+                    <Card key={`${card.rank}_of_${card.suit}`} suit={card.suit} rank={card.rank} isFaceUp={true} />
+                ))}
+
+            </div>
+            <h3 className="text-white font-bold mb-2">Player Hand</h3>
+            <p className="font-bold">Cards left: {playerCards.deck.length + playerCards.discard.length}</p>
+        </div>);
 }

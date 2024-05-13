@@ -1,5 +1,5 @@
 import React from 'react';
-import Gamefield from '../components/Gamefield_k';
+import Gamefield from '../components/Gamefield';
 import Login from '../components/Login';
 import Auth from '../utils/auth';
 import Button from '../components/Button';
