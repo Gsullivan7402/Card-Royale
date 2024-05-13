@@ -62,7 +62,7 @@ export default function Gamefield() {
             setWarIndex(0);
             return;
         } else if (comparison === "opponent") {
-            opponent.discard = player.discard.concat(player.inPlay).concat(opponent.inPlay);
+            opponent.discard = opponent.discard.concat(player.inPlay).concat(opponent.inPlay);
             player.inPlay = [];
             opponent.inPlay = [];
             playCard();
