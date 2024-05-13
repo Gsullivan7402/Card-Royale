@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import Button from './Button';
 import Card from './Card';
-import { deck, suits, ranks } from '../utils/constants';
+import { deck } from '../utils/constants';
 import { shuffleDeck } from '../components/Deck'; // Assuming shuffleDeck function is moved here
+
 
 export default function Gamefield() {
     // State variables for the player's and opponent's hands
@@ -18,11 +19,8 @@ export default function Gamefield() {
         // Shuffle the deck and split it into two hands
         const shuffledDeck = shuffleDeck(deck);
         const middle = Math.floor(shuffledDeck.length / 2);
-        const playerDeck = shuffledDeck.slice(0, middle);
-        const opponentDeck = shuffledDeck.slice(middle);
-
-        setPlayerHand(playerDeck);
-        setOpponentHand(opponentDeck);
+        setPlayerHand(shuffledDeck.slice(0, middle));
+        setOpponentHand(shuffledDeck.slice(middle));
     }, []);
 
     // Handle the 'Next' button click
