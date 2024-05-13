@@ -18,7 +18,6 @@ export const compareCards = (playerCard, opponentCard) => {
 };
 
 export const handleWar = (playerDeck, opponentDeck) => {
-    let playerFaceDownCard, opponentFaceDownCard;
   // Checks if both decks have enough cards for the "war" scenario
   if (playerDeck.length < 4 || opponentDeck.length < 4) {
     // If either player doesn't have enough cards, the game ends
@@ -29,19 +28,23 @@ export const handleWar = (playerDeck, opponentDeck) => {
   const playerFaceUpCard = playerDeck.shift();
   const opponentFaceUpCard = opponentDeck.shift();
 
+  // Each player places one card face down
+  const playerFaceDownCards = playerDeck.shift();
+  const opponentFaceDownCards = opponentDeck.shift();
+
   // Compares the face-up cards
   const result = compareCards(playerFaceUpCard, opponentFaceUpCard);
 
   if (result === 'player') {
     // Player wins the war
-    const warCards = [playerFaceDownCard, opponentFaceDownCard, playerFaceUpCard, opponentFaceUpCard];
+    const warCards = [...playerFaceDownCards, ...opponentFaceDownCards, playerFaceUpCard, opponentFaceUpCard];
     return {
       playerDeck: [...playerDeck, ...warCards],
       opponentDeck,
     };
   } else if (result === 'opponent') {
     // Opponent wins the war
-    const warCards = [playerFaceDownCard, opponentFaceDownCard, playerFaceUpCard, opponentFaceUpCard];
+    const warCards = [...playerFaceDownCards, ...opponentFaceDownCards, playerFaceUpCard, opponentFaceUpCard];
     return {
       playerDeck,
       opponentDeck: [...opponentDeck, ...warCards],
@@ -53,9 +56,18 @@ export const handleWar = (playerDeck, opponentDeck) => {
   }
 };
 
+
 export const playRound = (playerDeck, opponentDeck) => {
-  const playerCard = playerDeck.shift();
-  const opponentCard = opponentDeck.shift();
+  // Randomly select a card from each player's deck
+  const playerCardIndex = Math.floor(Math.random() * playerDeck.length);
+  const opponentCardIndex = Math.floor(Math.random() * opponentDeck.length);
+  
+  const playerCard = playerDeck[playerCardIndex];
+  const opponentCard = opponentDeck[opponentCardIndex];
+
+  // Remove the selected cards from each player's deck
+  playerDeck.splice(playerCardIndex, 1);
+  opponentDeck.splice(opponentCardIndex, 1);
 
   const result = compareCards(playerCard, opponentCard);
 
@@ -68,6 +80,31 @@ export const playRound = (playerDeck, opponentDeck) => {
   } else {
     // Handles "war" scenario
     const { updatedPlayerDeck, updatedOpponentDeck } = handleWar(playerDeck, opponentDeck);
-    return { playerDeck: updatedPlayerDeck, opponentDeck: updatedOpponentDeck };
+
+     // Update top cards after war
+     const playerTopCard = updatedPlayerDeck[0];
+     const opponentTopCard = updatedOpponentDeck[0];
+
+    return { playerDeck: updatedPlayerDeck, opponentDeck: updatedOpponentDeck, playerTopCard, opponentTopCard };
+  }
+};
+
+export const playGame = (playerDeck, opponentDeck) => {
+  while (playerDeck.length > 0 && opponentDeck.length > 0) {
+      // Play a round of the game
+      const { playerDeck: updatedPlayerDeck, opponentDeck: updatedOpponentDeck } = playRound(playerDeck, opponentDeck);
+
+      // Update the decks after the round
+      playerDeck = updatedPlayerDeck;
+      opponentDeck = updatedOpponentDeck;
+  }
+
+  // Determine the winner based on the remaining cards in the decks
+  if (playerDeck.length === 0 && opponentDeck.length > 0) {
+      console.log('Opponent wins the game!');
+  } else if (opponentDeck.length === 0 && playerDeck.length > 0) {
+      console.log('Player wins the game!');
+  } else {
+      console.log('It\'s a tie!');
   }
 };
