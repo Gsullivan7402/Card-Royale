@@ -16,25 +16,6 @@ function Login() {
     const handleLogin = (e) => {
         e.preventDefault();
         console.log('login clicked')
-        // try {
-        //     const response = await loginUser({ email, password });
-
-        //     if (!response.ok) {
-        //         throw new Error('something went wrong!');
-        //     }
-
-        //     const { token, user } = await response.json();
-        //     console.log(user);
-        //     Auth.login(token);
-        // } catch (err) {
-        //     console.error(err);
-        //     // Display error message to the user
-        //     alert(err.message || "An error occurred during login.");
-        // }
-
-        // // Clear input fields after handling
-        // setEmail("");
-        // setPassword("");
         loginUser({ variables: { email: email, password: password } });
     };
 
@@ -49,25 +30,6 @@ function Login() {
     const handleSignUp = (e) => {
         e.preventDefault();
         console.log('signup clicked')
-        // try {
-        //     const response = await createUser({ email, password });
-
-        //     if (!response.ok) {
-        //         throw new Error('something went wrong during sign up!');
-        //     }
-
-        //     const { token, user } = await response.json();
-        //     console.log(user);
-        //     Auth.login(token);
-        // } catch (err) {
-        //     console.error(err);
-        //     // Display error message to the user
-        //     alert(err.message || "An error occurred during sign up.");
-        // }
-
-        // // Clear input fields after handling
-        // setEmail("");
-        // setPassword("");
         signup({ variables: { email: email, password: password } })
     };
 
@@ -81,7 +43,7 @@ function Login() {
     // Render the login form
     return (
         <div
-            className="login-form-container absolute top-0 right-0 m-4 p-2 bg-white rounded shadow-lg"
+            className="login-form-container absolute top-3 -right-8 p-2 bg-white rounded shadow-lg lg:block hidden"
             style={{ width: "250px" }}
         >
             <form

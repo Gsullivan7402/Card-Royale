@@ -2,6 +2,7 @@ import React from 'react';
 import Button from './Button';
 import Auth from '../utils/auth';
 import Login from './Login';
+import Nav from './Nav';
 
 
 const Header  = () => {
@@ -19,6 +20,7 @@ const Header  = () => {
         ) : (
           <Login />
         )}
+        <Nav />
       </div>
       </div>
     
