@@ -16,8 +16,7 @@ List.propTypes = {
   users: PropTypes.arrayOf(PropTypes.shape({
     userID: PropTypes.string.isRequired,
     displayName: PropTypes.string.isRequired,
-    wins: PropTypes.number.isRequired,
-    picture: PropTypes.string.isRequired
+    wins: PropTypes.number.isRequired
   })).isRequired
 };
 

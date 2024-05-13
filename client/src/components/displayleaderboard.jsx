@@ -19,11 +19,11 @@ function ToggleLeaderboard() {
 
 function LeaderboardView() {
   const users = [
-    // Mock data, replace with actual data fetching or props
-    { id: 1, name: 'Alice', score: 100 },
-    { id: 2, name: 'Bob', score: 200 },
-    { id: 3, name: 'Charlie', score: 300 },
+    { userID: '1', displayName: 'Garrett ', wins: 300 },
+    { userID: '2', displayName: 'John ', wins: 200 },
+    { userID: '3', displayName: 'Devin ', wins: 100 },
   ];
+
 
   return (
     <div className="w-full max-w-2xl mx-auto mt-8 bg-green-100 shadow-xl rounded-lg p-4">

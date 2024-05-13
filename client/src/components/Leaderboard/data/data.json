@@ -1,17 +1,5 @@
 [
-  {
-    "userID": "4f4d5462-4a9f-483e-b620-9df9c13ec840",
-    "displayName": "John",
-    "score": 15
-  },
-  {
-    "userID": "2c0c5c67-1cfc-4b99-992e-2918b8a0dcc1",
-    "displayName": "Garrett",
-    "score": 46
-  },
-  {
-    "userID": "5100dedb-c2e5-48da-aeaf-83fa49a3482d",
-    "displayName": "Devin",
-    "score": 38
-  }
+  { "userID": "1", "displayName": "Garrett", "wins": 100 },
+  { "userID": "2", "displayName": "John", "wins": 200 },
+  { "userID": "3", "displayName": "Devin", "wins": 300 }
 ]
