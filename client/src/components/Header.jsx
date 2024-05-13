@@ -4,27 +4,25 @@ import Auth from '../utils/auth';
 import Login from './Login';
 
 
-const Header = () => {
+const Header  = () => {
   return (
-    <div className='bg-green-800 relative' >
+    <div className='bg-green-800 relative'>
       <h1 className='font-sans text-4xl text-center text-white'>Card Royale</h1>
-      {Auth.loggedIn() ? (
-
-        <Button
-          onClick={Auth.logout}
-          className="w-40 ml-6 py-2 px-4 rounded bg-black text-white font-bold flex justify-center absolute right-4 top-4"
-        >
-          Log Out
-        </Button>
-
-      ) : (
-        <Login />
-      )
-      }
-    </div>
-
-
-  )
-}
+      <div style={{ position: 'absolute', right: '50px', top: '10px' }}>
+        {Auth.loggedIn() ? (
+          <Button
+            onClick={Auth.logout}
+            className="w-40 ml-6 py-2 px-4 rounded bg-black text-white font-bold"
+          >
+            Log Out
+          </Button>
+        ) : (
+          <Login />
+        )}
+      </div>
+      </div>
+    
+  );
+};
 
 export default Header;
